@@ -1,20 +1,24 @@
 ﻿using EasyNails.Core.Entities;
+using EasyNails.Core.Interfaces;
+using EasyNails.Infraestructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EasyNails.Infraestructure.Repositories
 {
-    public class EmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
-        public IEnumerable<Employee> GetEmployees()
+        private readonly DataContext _dataContext;
+        public EmployeeRepository(DataContext dataContext)
         {
-            var employees = Enumerable.Range(1, 10).Select(e => new Employee
-            {
-                Id = e,
-                Name = e,
-                LastName = e
-            });
+            _dataContext = dataContext;
+        }
 
+        public async Task<IEnumerable<Employee>> GetEmployees()
+        {
+            var employees = await _dataContext.Employees.ToListAsync();
             return employees;
         }
     }

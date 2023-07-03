@@ -1,6 +1,7 @@
-﻿using EasyNails.Infraestructure.Repositories;
-using Microsoft.AspNetCore.Http;
+﻿using EasyNails.Core.Interfaces;
+using EasyNails.Infraestructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EasyNaills.Api.Controllers
 {
@@ -8,11 +9,16 @@ namespace EasyNaills.Api.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public IActionResult Get()
+        private readonly IEmployeeRepository _iEmployeeRepository;
+        public EmployeeController(IEmployeeRepository iEmployeeRepository)
         {
-            EmployeeRepository employeeRepository = new EmployeeRepository();
+            _iEmployeeRepository = iEmployeeRepository;
+        }
+        public async Task<IActionResult> Get()
+        {
+            var employees = await _iEmployeeRepository.GetEmployees();
 
-            return Ok(employeeRepository.GetEmployees());
+            return Ok(employees);
         }
     }
 }
