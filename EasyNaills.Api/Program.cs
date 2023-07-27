@@ -21,8 +21,8 @@ namespace EasyNaills.Api
 
             using (var scope = scopeFactory.CreateScope())
             {
-                var seeder = scope.ServiceProvider.GetService<SeedEmployeeDb>();
-                seeder.SeedAsyncEmployee().Wait();
+                var seeder = scope.ServiceProvider.GetService<SeedDbContextData>();
+                seeder.SeedDbAddData().Wait();
             }
         }
 

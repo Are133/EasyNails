@@ -4,14 +4,16 @@ using EasyNails.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyNails.Infraestructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230727054525_AddTableBranch")]
+    partial class AddTableBranch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,7 +76,7 @@ namespace EasyNails.Infraestructure.Migrations
                         .HasColumnName("ArrivalTime")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("BranchId")
+                    b.Property<int?>("BranchId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClientsServed")
@@ -141,16 +143,14 @@ namespace EasyNails.Infraestructure.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("EasyNails.Core.Entities.Employee", b =>
                 {
-                    b.HasOne("EasyNails.Core.Entities.Branch", "Branch")
-                        .WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("EasyNails.Core.Entities.Branch", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("BranchId");
                 });
 #pragma warning restore 612, 618
         }

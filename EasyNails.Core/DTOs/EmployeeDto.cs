@@ -1,8 +1,11 @@
-﻿using System;
+﻿using EasyNails.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace EasyNails.Core.Entities
+namespace EasyNails.Core.DTOs
 {
-    public class Employee
+    public class EmployeeDto
     {
         #region Attributes
 
@@ -29,20 +32,8 @@ namespace EasyNails.Core.Entities
         public bool IsActive { get; set; }
         public int NumbersOfDelays { get; set; }
         public int NumberOfFaults { get; set; }
-
-        public Branch Branch { get; set; }
-
         public int BranchId { get; set; }
 
         #endregion
-
-        #region PrivateMethods
-
-        #endregion
-
-        #region PublicMethods
-
-        #endregion
-
     }
 }

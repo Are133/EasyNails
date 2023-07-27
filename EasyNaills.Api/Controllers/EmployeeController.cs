@@ -1,7 +1,10 @@
-﻿using EasyNails.Core.Entities;
+﻿using AutoMapper;
+using EasyNails.Core.DTOs;
+using EasyNails.Core.Entities;
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EasyNaills.Api.Controllers
@@ -11,32 +14,35 @@ namespace EasyNaills.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeRepository _iEmployeeRepository;
-        public EmployeeController(IEmployeeRepository iEmployeeRepository)
+        private readonly IMapper _iMapper;
+        public EmployeeController(IEmployeeRepository iEmployeeRepository, IMapper iMapper)
         {
             _iEmployeeRepository = iEmployeeRepository;
+            _iMapper = iMapper;
+
         }
 
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
             var employees = await _iEmployeeRepository.GetEmployees();
-
-            return Ok(employees);
+            var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return Ok(employeesDto);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
-            var employees = await _iEmployeeRepository.GetEmployee(id);
-
-            return Ok(employees);
+            var employee = await _iEmployeeRepository.GetEmployee(id);
+            var employeeDto = _iMapper.Map<EmployeeDto>(employee);
+            return Ok(employeeDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEmployee(Employee employee)
+        public async Task<IActionResult> AddEmployee(EmployeeDto employeeDto)
         {
-             await _iEmployeeRepository.AddEmployee(employee);
-
+            var employee = _iMapper.Map<Employee>(employeeDto);
+            await _iEmployeeRepository.AddEmployee(employee);
             return Ok(employee);
         }
     }

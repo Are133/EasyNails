@@ -1,3 +1,4 @@
+using AutoMapper;
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Data;
 using EasyNails.Infraestructure.Repositories;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace EasyNaills.Api
 {
@@ -30,9 +32,10 @@ namespace EasyNaills.Api
                 cfg.UseSqlServer(Configuration.GetConnectionString("ConnectionStringCredentials"));
             });
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //SeedDb
-            services.AddTransient<SeedEmployeeDb>();    
+            services.AddTransient<SeedDbContextData>();    
 
             //Dependency Injection Services
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
