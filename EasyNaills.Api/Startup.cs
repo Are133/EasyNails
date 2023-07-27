@@ -1,6 +1,7 @@
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Data;
 using EasyNails.Infraestructure.Repositories;
+using EasyNails.Infraestructure.Seeders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,10 @@ namespace EasyNaills.Api
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("ConnectionStringCredentials"));
             });
+
+
+            //SeedDb
+            services.AddTransient<SeedEmployeeDb>();    
 
             //Dependency Injection Services
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();

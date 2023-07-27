@@ -5,7 +5,7 @@ namespace EasyNails.Core.Entities
     public class Employee
     {
         public int Id { get; set; }
-        public string UserId { get; set; } = string.Empty;
+        public string EmployeeId { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
         public DateTime DateOfBirth  { get; set; }
