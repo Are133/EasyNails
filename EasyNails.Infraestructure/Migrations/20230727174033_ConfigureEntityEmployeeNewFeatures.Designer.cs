@@ -4,14 +4,16 @@ using EasyNails.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EasyNails.Infraestructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230727174033_ConfigureEntityEmployeeNewFeatures")]
+    partial class ConfigureEntityEmployeeNewFeatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace EasyNails.Infraestructure.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnName("Address")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("VARCHAR")
                         .HasMaxLength(500)
                         .IsUnicode(false);
 
@@ -96,21 +98,21 @@ namespace EasyNails.Infraestructure.Migrations
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnName("EmployeeId")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("VARCHAR")
                         .HasMaxLength(500)
                         .IsUnicode(false);
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnName("FirstName")
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("VARCHAR")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 
                     b.Property<string>("ImageCertificate")
                         .IsRequired()
                         .HasColumnName("ImageCertificate")
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("VARCHAR")
                         .HasMaxLength(500)
                         .IsUnicode(false);
 
@@ -133,7 +135,7 @@ namespace EasyNails.Infraestructure.Migrations
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnName("Surname")
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("VARCHAR")
                         .HasMaxLength(50)
                         .IsUnicode(false);
 

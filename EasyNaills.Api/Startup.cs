@@ -1,8 +1,10 @@
 using AutoMapper;
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Data;
+using EasyNails.Infraestructure.Filters;
 using EasyNails.Infraestructure.Repositories;
 using EasyNails.Infraestructure.Seeders;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,10 +37,18 @@ namespace EasyNaills.Api
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //SeedDb
-            services.AddTransient<SeedDbContextData>();    
+            services.AddTransient<SeedDbContextData>();
 
             //Dependency Injection Services
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+
+            services.AddMvc(opt =>
+            {
+                opt.Filters.Add<ValidationFilter>();
+            }).AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

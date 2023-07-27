@@ -1,24 +1,10 @@
-﻿using EasyNails.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace EasyNails.Core.DTOs
 {
     public class EmployeeDto
     {
-        #region Attributes
-
-        #endregion
-
-        #region Builder
-
-        #endregion
-
-
         #region Properties
-        public int Id { get; set; }
-        public string EmployeeId { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
@@ -34,6 +20,6 @@ namespace EasyNails.Core.DTOs
         public int NumberOfFaults { get; set; }
         public int BranchId { get; set; }
 
-        #endregion
+        #endregion 
     }
 }

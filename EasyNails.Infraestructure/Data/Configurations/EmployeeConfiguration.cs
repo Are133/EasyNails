@@ -6,22 +6,6 @@ namespace EasyNails.Infraestructure.Data.Configurations
 {
     public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
     {
-        #region Attributes
-
-        #endregion
-
-        #region Builder
-
-        #endregion
-
-
-        #region Properties
-
-        #endregion
-
-        #region PrivateMethods
-
-        #endregion
 
         #region PublicMethods
         public void Configure(EntityTypeBuilder<Employee> builder)
@@ -30,19 +14,20 @@ namespace EasyNails.Infraestructure.Data.Configurations
 
             builder.HasKey(e => e.Id);
 
-            builder.Property(e => e.FirstName).HasColumnName("FirstName").IsRequired()
+            builder.Property(e => e.FirstName).HasColumnName("FirstName")
+                .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            builder.Property(e => e.Surname).HasColumnName("Surname").IsRequired()
-                .HasMaxLength(100)
+            builder.Property(e => e.Surname).HasColumnName("Surname")
+                .IsRequired()
+                .HasMaxLength(50)
                 .IsUnicode(false);
 
             builder.Property(e => e.DateOfBirth).HasColumnName("DateOfBirth")
-                .HasColumnType("datetime");
+                .HasColumnType("datetime").IsRequired();
 
             builder.Property(e => e.ImageCertificate).HasColumnName("ImageCertificate")
-                .IsRequired()
                 .HasMaxLength(500)
                 .IsUnicode(false);
 
@@ -51,9 +36,10 @@ namespace EasyNails.Infraestructure.Data.Configurations
                 .IsUnicode(false);
 
             builder.Property(e => e.ArrivalTime).HasColumnName("ArrivalTime")
-                .HasColumnType("datetime");
+                .HasColumnType("datetime").IsRequired();
 
             builder.Property(e => e.DepartureTime).HasColumnName("DepartureTime")
+                .IsRequired()
                 .HasColumnType("datetime");
 
             builder.Property(e => e.Speciality).HasColumnName("Speciality");
@@ -69,7 +55,8 @@ namespace EasyNails.Infraestructure.Data.Configurations
 
             builder.Property(e => e.NumberOfFaults).HasColumnName("NumberOfFaults");
 
-            builder.Property(e => e.EmployeeId).HasColumnName("EmployeeId").HasMaxLength(500)
+            builder.Property(e => e.EmployeeId).HasColumnName("EmployeeId")
+                .HasMaxLength(500)
                 .IsUnicode(false);
 
         }

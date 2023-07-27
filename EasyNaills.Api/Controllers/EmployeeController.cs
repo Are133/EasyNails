@@ -2,7 +2,6 @@
 using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
 using EasyNails.Core.Interfaces;
-using EasyNails.Infraestructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,17 +10,24 @@ namespace EasyNaills.Api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
     public class EmployeeController : ControllerBase
     {
+        #region Attributtes
         private readonly IEmployeeRepository _iEmployeeRepository;
         private readonly IMapper _iMapper;
+        #endregion
+
+        #region Builder
         public EmployeeController(IEmployeeRepository iEmployeeRepository, IMapper iMapper)
         {
             _iEmployeeRepository = iEmployeeRepository;
             _iMapper = iMapper;
 
         }
+        #endregion
 
+        #region PublicMethods
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
@@ -45,5 +51,7 @@ namespace EasyNaills.Api.Controllers
             await _iEmployeeRepository.AddEmployee(employee);
             return Ok(employee);
         }
+        #endregion
+
     }
 }

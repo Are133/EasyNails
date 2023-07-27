@@ -4,18 +4,11 @@ namespace EasyNails.Core.Entities
 {
     public class Employee
     {
-        #region Attributes
-
-        #endregion
-
-        #region Builder
-
-        #endregion
-
 
         #region Properties
         public int Id { get; set; }
-        public string EmployeeId { get; set; } = string.Empty;
+
+        public string EmployeeId { get; set; } = Guid.NewGuid().ToString();
         public string FirstName { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
@@ -30,18 +23,17 @@ namespace EasyNails.Core.Entities
         public int NumbersOfDelays { get; set; }
         public int NumberOfFaults { get; set; }
 
-        public Branch Branch { get; set; }
+        public Branch? Branch { get; set; }
 
         public int BranchId { get; set; }
 
         #endregion
 
         #region PrivateMethods
-
-        #endregion
-
-        #region PublicMethods
-
+        private void SetGuidEmployeeId()
+        {
+            EmployeeId = $"{FirstName.Substring(2)} {Surname.Substring(2)} {Guid.NewGuid()}";
+        }
         #endregion
 
     }
