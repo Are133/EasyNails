@@ -2,7 +2,7 @@
 {
     public class Branch
     {
-
+        // TODO: Agregar el resto de configuraciones para la entidad
         #region Properties
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

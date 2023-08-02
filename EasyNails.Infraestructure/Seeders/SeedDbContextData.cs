@@ -143,7 +143,28 @@ namespace EasyNails.Infraestructure.Seeders
             }
             #endregion
 
-            
+            #region UserDataSeed
+            if (!_dataContext.Users.Any())
+            {
+                _dataContext.Users.Add(new User
+                {
+                    FirstName = "Soma",
+                    Email = "soma@yopmail.com",
+                    Password = "password",
+
+                });
+
+                _dataContext.Users.Add(new User
+                {
+                    FirstName = "livi",
+                    Email = "livi@yopmail.com",
+                    Password = "password",
+
+                });
+
+                await _dataContext.SaveChangesAsync();
+            }
+            #endregion
         }
         #endregion
 

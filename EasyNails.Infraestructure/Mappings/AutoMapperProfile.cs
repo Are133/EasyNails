@@ -9,6 +9,7 @@ namespace EasyNails.Infraestructure.Mappings
         #region Builder
         public AutoMapperProfile()
         {
+            //TODO: AGregar los mappings del restp de entidades
             #region EmployeeProfile
             CreateMap<Employee, EmployeeDto>();
             CreateMap<EmployeeDto, Employee>();

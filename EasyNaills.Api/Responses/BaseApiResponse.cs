@@ -8,6 +8,10 @@
                 Data = data;
         }
         #endregion
+
+        #region Properties
         public T Data { get; set; }
+        #endregion
+
     }
 }

@@ -18,6 +18,7 @@ namespace EasyNails.Infraestructure.Data
         #region Properties
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<User> Users { get; set; }
         #endregion
 
         #region PrivateMethods
@@ -33,6 +34,7 @@ namespace EasyNails.Infraestructure.Data
         {
             modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
             modelBuilder.ApplyConfiguration(new BranchConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
         #endregion
 
