@@ -1,6 +1,6 @@
 ﻿using EasyNails.Core.DTOs;
 using FluentValidation;
-using System;
+
 
 namespace EasyNails.Infraestructure.Validators
 {

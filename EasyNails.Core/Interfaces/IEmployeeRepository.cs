@@ -6,8 +6,9 @@ namespace EasyNails.Core.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<Employee>> GetEmployees();
-        Task<Employee> GetEmployee(int id);
-        Task AddEmployee(Employee employee);
+        Task<IEnumerable<Employee>> GetEmployeesAsync();
+        Task<Employee> GetEmployeeAsync(int id);
+        Task<bool> AddOrUpdatedEmployeeAsync(Employee employee);
+        Task<bool> DeleteEmployeeAsync(int id);
     }
 }

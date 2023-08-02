@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNaills.Api", "EasyNaills.Api\EasyNaills.Api.csproj", "{4DD04212-64F7-46F1-93B8-5D70C22CE2C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyNaills.Api", "EasyNaills.Api\EasyNaills.Api.csproj", "{4DD04212-64F7-46F1-93B8-5D70C22CE2C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNails.Core", "EasyNails.Core\EasyNails.Core.csproj", "{609AABCD-10EB-47BA-9A46-8A95E33E983D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyNails.Core", "EasyNails.Core\EasyNails.Core.csproj", "{609AABCD-10EB-47BA-9A46-8A95E33E983D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNails.Infraestructure", "EasyNails.Infraestructure\EasyNails.Infraestructure.csproj", "{3198299D-6A63-49B2-9063-4EDEF2D73E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyNails.Infraestructure", "EasyNails.Infraestructure\EasyNails.Infraestructure.csproj", "{3198299D-6A63-49B2-9063-4EDEF2D73E04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8F70CE46-93A0-469A-AD5C-B17E91F7BD2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNails.UnitTest", "EasyNails.UnitTest\EasyNails.UnitTest.csproj", "{918338AA-6A0E-4662-BFB5-7F5DA239BBAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyNails.UnitTest", "EasyNails.UnitTest\EasyNails.UnitTest.csproj", "{918338AA-6A0E-4662-BFB5-7F5DA239BBAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNails.IntegrationTests", "EasyNails.IntegrationTests\EasyNails.IntegrationTests.csproj", "{39EF022E-7DBB-41B1-BB1D-10250C589274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyNails.IntegrationTests", "EasyNails.IntegrationTests\EasyNails.IntegrationTests.csproj", "{39EF022E-7DBB-41B1-BB1D-10250C589274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNail.Services", "EasyNail.Services\EasyNail.Services.csproj", "{21BB1A4B-E1F6-4946-AE7C-C917FD224526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyNails.BussinesLogic", "EasyNails.BussinesLogic\EasyNails.BussinesLogic.csproj", "{529DC8CD-B0C9-4505-95B9-AA8E86130637}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,14 @@ Global
 		{39EF022E-7DBB-41B1-BB1D-10250C589274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39EF022E-7DBB-41B1-BB1D-10250C589274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39EF022E-7DBB-41B1-BB1D-10250C589274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21BB1A4B-E1F6-4946-AE7C-C917FD224526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21BB1A4B-E1F6-4946-AE7C-C917FD224526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21BB1A4B-E1F6-4946-AE7C-C917FD224526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21BB1A4B-E1F6-4946-AE7C-C917FD224526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529DC8CD-B0C9-4505-95B9-AA8E86130637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529DC8CD-B0C9-4505-95B9-AA8E86130637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529DC8CD-B0C9-4505-95B9-AA8E86130637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529DC8CD-B0C9-4505-95B9-AA8E86130637}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
