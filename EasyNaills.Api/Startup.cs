@@ -1,4 +1,6 @@
 using AutoMapper;
+using EasyNail.Services.Interfaces;
+using EasyNail.Services.Services;
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Data;
 using EasyNails.Infraestructure.Filters;
@@ -40,7 +42,10 @@ namespace EasyNaills.Api
             services.AddTransient<SeedDbContextData>();
 
             //Dependency Injection Services
+            services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddMvc(opt =>
             {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EasyNail.Services.Interfaces;
 using EasyNaills.Api.Responses;
 using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
@@ -15,14 +16,14 @@ namespace EasyNaills.Api.Controllers
     public class EmployeeController : ControllerBase
     {
         #region Attributtes
-        private readonly IEmployeeRepository _iEmployeeRepository;
+        private readonly IEmployeeService _employeeService;
         private readonly IMapper _iMapper;
         #endregion
 
         #region Builder
-        public EmployeeController(IEmployeeRepository iEmployeeRepository, IMapper iMapper)
+        public EmployeeController(IEmployeeService employeeService, IMapper iMapper)
         {
-            _iEmployeeRepository = iEmployeeRepository;
+            _employeeService = employeeService; 
             _iMapper = iMapper;
 
         }
@@ -32,7 +33,7 @@ namespace EasyNaills.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEmployees()
         {
-            var employees = await _iEmployeeRepository.GetEmployeesAsync();
+            var employees = await _employeeService.GetEmployeesAsync();
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
             var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto);
             return Ok(response);
@@ -41,8 +42,9 @@ namespace EasyNaills.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
-            var employee = await _iEmployeeRepository.GetEmployeeAsync(id);
+            var employee = await _employeeService.GetEmployeeAsync(id);
             var employeeDto = _iMapper.Map<EmployeeDto>(employee);
+            
             var response = new BaseApiResponse<EmployeeDto>(employeeDto);
             return Ok(response);
         }
@@ -51,7 +53,7 @@ namespace EasyNaills.Api.Controllers
         public async Task<IActionResult> AddEmployee(EmployeeDto employeeDto)
         {
             var employee = _iMapper.Map<Employee>(employeeDto);
-            await _iEmployeeRepository.AddOrUpdatedEmployeeAsync(employee);
+            await _employeeService.AddOrUpdatedEmployeeAsync(employee);
             var response = new BaseApiResponse<EmployeeDto>(employeeDto);
             return Ok(response);
         }
@@ -61,7 +63,7 @@ namespace EasyNaills.Api.Controllers
         {
             var employee = _iMapper.Map<Employee>(employeeDto);
             employee.Id = id;
-            var result = await _iEmployeeRepository.AddOrUpdatedEmployeeAsync(employee);
+            var result = await _employeeService.AddOrUpdatedEmployeeAsync(employee);
             var response = new BaseApiResponse<bool>(result);
             return Ok(response);
         }
@@ -69,7 +71,7 @@ namespace EasyNaills.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            var result = await _iEmployeeRepository.DeleteEmployeeAsync(id);
+            var result = await _employeeService.DeleteEmployeeAsync(id);
             var response = new BaseApiResponse<bool>(result);
             return Ok(response);
         }
