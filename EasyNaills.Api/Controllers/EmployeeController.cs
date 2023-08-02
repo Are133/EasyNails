@@ -31,9 +31,9 @@ namespace EasyNaills.Api.Controllers
 
         #region PublicMethods
         [HttpGet]
-        public async Task<IActionResult> GetEmployees()
+        public IActionResult GetEmployees()
         {
-            var employees = await _employeeService.GetEmployeesAsync();
+            var employees = _employeeService.GetEmployeesAsync();
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
             var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto);
             return Ok(response);

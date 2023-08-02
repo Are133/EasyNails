@@ -29,7 +29,10 @@ namespace EasyNaills.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add<GlobalExceptionFilter>();
+            });
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -43,9 +46,9 @@ namespace EasyNaills.Api
 
             //Dependency Injection Services
             services.AddTransient<IEmployeeService, EmployeeService>();
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddMvc(opt =>
             {

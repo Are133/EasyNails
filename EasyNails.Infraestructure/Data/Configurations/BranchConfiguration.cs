@@ -6,23 +6,7 @@ namespace EasyNails.Infraestructure.Data.Configurations
 {
     public class BranchConfiguration : IEntityTypeConfiguration<Branch>
     {
-        #region Attributes
-
-        #endregion
-
-        #region Builder
-
-        #endregion
-
-
-        #region Properties
-
-        #endregion
-
-        #region PrivateMethods
-
-        #endregion
-
+        
         #region PublicMethods
         public void Configure(EntityTypeBuilder<Branch> builder)
         {

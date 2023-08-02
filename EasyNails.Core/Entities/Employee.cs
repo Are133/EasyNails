@@ -2,12 +2,10 @@
 
 namespace EasyNails.Core.Entities
 {
-    public class Employee
+    public class Employee : EntityBase
     {
 
         #region Properties
-        public int Id { get; set; }
-
         public string EmployeeId { get; set; } = Guid.NewGuid().ToString();
         public string FirstName { get; set; } = string.Empty;
         public string Surname { get; set; } = string.Empty;
@@ -19,7 +17,6 @@ namespace EasyNails.Core.Entities
         public int Speciality { get; set; }
         public decimal Commission { get; set; }
         public int ClientsServed { get; set; }
-        public bool IsActive { get; set; }
         public int NumbersOfDelays { get; set; }
         public int NumberOfFaults { get; set; }
 

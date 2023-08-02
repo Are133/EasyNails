@@ -9,40 +9,48 @@ namespace EasyNail.Services.Services
     public class EmployeeService : IEmployeeService
     {
         #region Atributtes
-        private readonly IEmployeeRepository _iEmployeeRepository;
-        private readonly IUserRepository _iUserRepository;
+        private readonly IUnitOfWork _unitOfWork;
         #endregion
 
         #region Builder
-        public EmployeeService(IEmployeeRepository iEmployeeRepository, IUserRepository iUserRepository)
+        public EmployeeService(IUnitOfWork unitOfWork)
         {
-            _iEmployeeRepository = iEmployeeRepository;
-            _iUserRepository = iUserRepository;
+            _unitOfWork = unitOfWork;
         }
         #endregion
 
         #region PublicMethos
-        public async Task<bool> AddOrUpdatedEmployeeAsync(Employee employee)
-        {
-            
-            
-            //TODO: Validar que el usuario este autorizado y activo para registrar empleados y ademas validar que sea admin
-            return await _iEmployeeRepository.AddOrUpdatedEmployeeAsync(employee);
-        }
 
-        public async Task<bool> DeleteEmployeeAsync(int id)
+        public IEnumerable<Employee> GetEmployeesAsync()
         {
-            return await _iEmployeeRepository.DeleteEmployeeAsync(id);
+            return _unitOfWork.EmployeeRepository.GetAll();
         }
 
         public async Task<Employee> GetEmployeeAsync(int id)
         {
-            return await _iEmployeeRepository.GetEmployeeAsync(id);
+            return await _unitOfWork.EmployeeRepository.GetByIdAsync(id);
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeesAsync()
+        public async Task<bool> AddOrUpdatedEmployeeAsync(Employee employee)
         {
-            return await _iEmployeeRepository.GetEmployeesAsync();
+            //TODO: Validar que el usuario este autorizado y activo para registrar empleados y ademas validar que sea admin
+            if(employee.Id is 0)
+            {
+                await _unitOfWork.EmployeeRepository.SaveAsync(employee);
+                return true;
+            }
+            else
+            {
+                _unitOfWork.EmployeeRepository.Update(employee);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<bool> DeleteEmployeeAsync(int id)
+        {
+            await _unitOfWork.EmployeeRepository.DeleteAsync(id);
+            return true;
         }
         #endregion
     }
