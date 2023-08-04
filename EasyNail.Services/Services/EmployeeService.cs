@@ -1,6 +1,7 @@
 ﻿using EasyNail.Services.Interfaces;
 using EasyNails.Core.Entities;
 using EasyNails.Core.Interfaces;
+using EasyNails.Core.QueryFilters;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace EasyNail.Services.Services
 
         #region PublicMethos
 
-        public IEnumerable<Employee> GetEmployeesAsync()
+        public IEnumerable<Employee> GetEmployeesAsync(EmployeeQueryFilter filters)
         {
             return _unitOfWork.EmployeeRepository.GetAll();
         }

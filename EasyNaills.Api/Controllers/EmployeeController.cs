@@ -3,9 +3,10 @@ using EasyNail.Services.Interfaces;
 using EasyNaills.Api.Responses;
 using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
-using EasyNails.Core.Interfaces;
+using EasyNails.Core.QueryFilters;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace EasyNaills.Api.Controllers
@@ -23,7 +24,7 @@ namespace EasyNaills.Api.Controllers
         #region Builder
         public EmployeeController(IEmployeeService employeeService, IMapper iMapper)
         {
-            _employeeService = employeeService; 
+            _employeeService = employeeService;
             _iMapper = iMapper;
 
         }
@@ -31,9 +32,11 @@ namespace EasyNaills.Api.Controllers
 
         #region PublicMethods
         [HttpGet]
-        public IActionResult GetEmployees()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public IActionResult GetEmployees([FromQuery] EmployeeQueryFilter filters)
         {
-            var employees = _employeeService.GetEmployeesAsync();
+            var employees = _employeeService.GetEmployeesAsync(filters);
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
             var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto);
             return Ok(response);
@@ -44,7 +47,7 @@ namespace EasyNaills.Api.Controllers
         {
             var employee = await _employeeService.GetEmployeeAsync(id);
             var employeeDto = _iMapper.Map<EmployeeDto>(employee);
-            
+
             var response = new BaseApiResponse<EmployeeDto>(employeeDto);
             return Ok(response);
         }
