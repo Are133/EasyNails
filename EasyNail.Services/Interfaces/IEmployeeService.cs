@@ -1,13 +1,13 @@
-﻿using EasyNails.Core.Entities;
+﻿using EasyNails.Core.CustomEntities;
+using EasyNails.Core.Entities;
 using EasyNails.Core.QueryFilters;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EasyNail.Services.Interfaces
 {
     public interface IEmployeeService
     {
-        IEnumerable<Employee> GetEmployeesAsync(EmployeeQueryFilter filters);
+        PagesList<Employee> GetEmployeesAsync(EmployeeQueryFilter filters);
         Task<Employee> GetEmployeeAsync(int id);
         Task<bool> AddOrUpdatedEmployeeAsync(Employee employee);
         Task<bool> DeleteEmployeeAsync(int id);

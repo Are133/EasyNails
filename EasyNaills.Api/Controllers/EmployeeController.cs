@@ -5,6 +5,7 @@ using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
 using EasyNails.Core.QueryFilters;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -39,6 +40,19 @@ namespace EasyNaills.Api.Controllers
             var employees = _employeeService.GetEmployeesAsync(filters);
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
             var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto);
+
+            var metadata = new
+            {
+                employees.TotalCount,
+                employees.PageSize,
+                employees.CurrentPage,
+                employees.TotalPages,
+                employees.HasNextPage,
+                employees.HasPreviusPage
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(response);
         }
 
@@ -75,7 +89,7 @@ namespace EasyNaills.Api.Controllers
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             var result = await _employeeService.DeleteEmployeeAsync(id);
-            var response = new BaseApiResponse<bool>(result);
+            var response = new BaseApiResponse<bool>(result);  
             return Ok(response);
         }
         #endregion

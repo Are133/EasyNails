@@ -1,4 +1,5 @@
 ﻿using EasyNail.Services.Interfaces;
+using EasyNails.Core.CustomEntities;
 using EasyNails.Core.Entities;
 using EasyNails.Core.Interfaces;
 using EasyNails.Core.QueryFilters;
@@ -22,9 +23,13 @@ namespace EasyNail.Services.Services
 
         #region PublicMethos
 
-        public IEnumerable<Employee> GetEmployeesAsync(EmployeeQueryFilter filters)
+        public PagesList<Employee> GetEmployeesAsync(EmployeeQueryFilter filters)
         {
-            return _unitOfWork.EmployeeRepository.GetAll();
+            var employees = _unitOfWork.EmployeeRepository.GetAll();
+
+            var pagedEmployees = PagesList<Employee>.Create(employees, filters.PageNumber, filters.PageSize);
+
+            return pagedEmployees;
         }
 
         public async Task<Employee> GetEmployeeAsync(int id)

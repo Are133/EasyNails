@@ -34,7 +34,9 @@ namespace EasyNails.Infraestructure.Repositories
         }
         public async Task SaveAsync(T entity)
         {
-           await _entities.AddAsync(entity);
+            _entities.Add(entity);
+            await _dataContext.SaveChangesAsync();
+            
         }
         public void Update(T entity)
         {

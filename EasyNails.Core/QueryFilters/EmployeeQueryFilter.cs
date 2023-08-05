@@ -9,6 +9,8 @@ namespace EasyNails.Core.QueryFilters
         public int? EmployeeId { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string Country { get; set; } = string.Empty;
+        public int PageSize { get; set; }
+        public int PageNumber { get; set; }
 
     }
 }
