@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace EasyNaills.Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/v1/[controller]")]
     [ApiController]
 
@@ -35,14 +36,20 @@ namespace EasyNaills.Api.Controllers
         #endregion
 
         #region PublicMethods
+        /// <summary>
+        /// Regresa todos los empleados, con un paginado por default.
+        /// Al enviarle los parametros regresara la informacion tal como la pide el cliente
+        /// </summary>
+        /// <param name="filters">Filtros que resive la funcion</param>
+        /// <returns></returns>
         [HttpGet(Name = nameof(GetEmployees))]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(BaseApiResponse<IEnumerable<EmployeeDto>>))]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetEmployees([FromQuery] EmployeeQueryFilter filters)
         {
             var employees = _employeeService.GetEmployeesAsync(filters);
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
-            
+
 
             var metadata = new Metadata
             {

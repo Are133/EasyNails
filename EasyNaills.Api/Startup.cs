@@ -17,8 +17,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace EasyNaills.Api
 {
@@ -68,6 +71,20 @@ namespace EasyNaills.Api
                 return new UriService(absoluteUri);
             });
 
+            services.AddSwaggerGen(docSwgr =>
+            {
+                docSwgr.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Easy Nails API",
+                    Version = "v1",
+                });
+
+                var docXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlRoutPath = Path.Combine(AppContext.BaseDirectory, docXmlFile);
+
+                docSwgr.IncludeXmlComments(xmlRoutPath);
+            });
+
             services.AddMvc(opt =>
             {
                 opt.Filters.Add<ValidationFilter>();
@@ -86,6 +103,13 @@ namespace EasyNaills.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(swgrUI =>
+            {
+                swgrUI.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyNails API V1");
+                swgrUI.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

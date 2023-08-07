@@ -2,6 +2,9 @@
 
 namespace EasyNails.Core.DTOs
 {
+    /// <summary>
+    /// Parametro de entrada para poder editar y agregar nuevos empleados
+    /// </summary>
     public class EmployeeDto
     {
         #region Properties
