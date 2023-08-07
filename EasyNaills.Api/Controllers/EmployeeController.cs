@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using EasyNail.Services.Interfaces;
 using EasyNaills.Api.Responses;
+using EasyNails.Core.CustomEntities;
 using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
 using EasyNails.Core.QueryFilters;
+using EasyNails.Infraestructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -20,35 +22,43 @@ namespace EasyNaills.Api.Controllers
         #region Attributtes
         private readonly IEmployeeService _employeeService;
         private readonly IMapper _iMapper;
+        private readonly IUriService _iUriService;
         #endregion
 
         #region Builder
-        public EmployeeController(IEmployeeService employeeService, IMapper iMapper)
+        public EmployeeController(IEmployeeService employeeService, IMapper iMapper, IUriService uriService)
         {
             _employeeService = employeeService;
             _iMapper = iMapper;
-
+            _iUriService = uriService;
         }
         #endregion
 
         #region PublicMethods
-        [HttpGet]
+        [HttpGet(Name = nameof(GetEmployees))]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetEmployees([FromQuery] EmployeeQueryFilter filters)
         {
             var employees = _employeeService.GetEmployeesAsync(filters);
             var employeesDto = _iMapper.Map<IEnumerable<EmployeeDto>>(employees);
-            var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto);
+            
 
-            var metadata = new
+            var metadata = new Metadata
             {
-                employees.TotalCount,
-                employees.PageSize,
-                employees.CurrentPage,
-                employees.TotalPages,
-                employees.HasNextPage,
-                employees.HasPreviusPage
+                TotalCount = employees.TotalCount,
+                PageSize = employees.PageSize,
+                CurrentPage = employees.CurrentPage,
+                TotalPages = employees.TotalPages,
+                HasNextPages = employees.HasNextPage,
+                HasPreviusPage = employees.HasPreviusPage,
+                NextPageUrl = _iUriService.GetEmployeePaginationUri(filters, Url.RouteUrl(nameof(GetEmployee))).ToString(),
+                PreviusPageUrl = _iUriService.GetEmployeePaginationUri(filters, Url.RouteUrl(nameof(GetEmployee))).ToString(),
+            };
+
+            var response = new BaseApiResponse<IEnumerable<EmployeeDto>>(employeesDto)
+            {
+                Meta = metadata
             };
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
@@ -89,7 +99,7 @@ namespace EasyNaills.Api.Controllers
         public async Task<IActionResult> DeleteEmployee(int id)
         {
             var result = await _employeeService.DeleteEmployeeAsync(id);
-            var response = new BaseApiResponse<bool>(result);  
+            var response = new BaseApiResponse<bool>(result);
             return Ok(response);
         }
         #endregion

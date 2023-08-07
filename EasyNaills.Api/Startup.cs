@@ -4,15 +4,20 @@ using EasyNail.Services.Services;
 using EasyNails.Core.Interfaces;
 using EasyNails.Infraestructure.Data;
 using EasyNails.Infraestructure.Filters;
+using EasyNails.Infraestructure.Interfaces;
+using EasyNails.Infraestructure.Options;
 using EasyNails.Infraestructure.Repositories;
 using EasyNails.Infraestructure.Seeders;
+using EasyNails.Infraestructure.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using System;
 
 namespace EasyNaills.Api
@@ -32,7 +37,11 @@ namespace EasyNaills.Api
             services.AddControllers(opt =>
             {
                 opt.Filters.Add<GlobalExceptionFilter>();
+            }).AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
+
 
             services.AddDbContext<DataContext>(cfg =>
             {
@@ -44,11 +53,20 @@ namespace EasyNaills.Api
             //SeedDb
             services.AddTransient<SeedDbContextData>();
 
+            services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
+
             //Dependency Injection Services
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IUserService, UserService>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IUriService>(prov =>
+            {
+                var accesor = prov.GetRequiredService<IHttpContextAccessor>();
+                var request = accesor.HttpContext.Request;
+                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(absoluteUri);
+            });
 
             services.AddMvc(opt =>
             {

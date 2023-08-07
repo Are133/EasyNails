@@ -3,6 +3,8 @@ using EasyNails.Core.CustomEntities;
 using EasyNails.Core.Entities;
 using EasyNails.Core.Interfaces;
 using EasyNails.Core.QueryFilters;
+using EasyNails.Infraestructure.Options;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,12 +14,14 @@ namespace EasyNail.Services.Services
     {
         #region Atributtes
         private readonly IUnitOfWork _unitOfWork;
+        private readonly PaginationOptions _paginationOptions;
         #endregion
 
         #region Builder
-        public EmployeeService(IUnitOfWork unitOfWork)
+        public EmployeeService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> paginationOptions)
         {
             _unitOfWork = unitOfWork;
+            _paginationOptions = paginationOptions.Value;
         }
         #endregion
 
@@ -26,6 +30,9 @@ namespace EasyNail.Services.Services
         public PagesList<Employee> GetEmployeesAsync(EmployeeQueryFilter filters)
         {
             var employees = _unitOfWork.EmployeeRepository.GetAll();
+
+            filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumbber : filters.PageNumber;
+            filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
 
             var pagedEmployees = PagesList<Employee>.Create(employees, filters.PageNumber, filters.PageSize);
 

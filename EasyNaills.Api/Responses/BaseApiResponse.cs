@@ -1,4 +1,6 @@
-﻿namespace EasyNaills.Api.Responses
+﻿using EasyNails.Core.CustomEntities;
+
+namespace EasyNaills.Api.Responses
 {
     public class BaseApiResponse<T>
     {
@@ -11,6 +13,7 @@
 
         #region Properties
         public T Data { get; set; }
+        public Metadata Meta { get; set; }
         #endregion
 
     }
