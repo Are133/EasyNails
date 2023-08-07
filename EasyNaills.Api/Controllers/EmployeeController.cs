@@ -6,6 +6,7 @@ using EasyNails.Core.DTOs;
 using EasyNails.Core.Entities;
 using EasyNails.Core.QueryFilters;
 using EasyNails.Infraestructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace EasyNaills.Api.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/v1/[controller]")]
     [ApiController]

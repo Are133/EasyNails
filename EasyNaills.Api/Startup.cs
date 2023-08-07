@@ -10,6 +10,7 @@ using EasyNails.Infraestructure.Repositories;
 using EasyNails.Infraestructure.Seeders;
 using EasyNails.Infraestructure.Services;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +18,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace EasyNaills.Api
 {
@@ -85,6 +88,25 @@ namespace EasyNaills.Api
                 docSwgr.IncludeXmlComments(xmlRoutPath);
             });
 
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(jwt =>
+            {
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Authentication:Issuer"],
+                    ValidAudience = Configuration["Authentication:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:SecretKey"]))
+                };
+            });
+
             services.AddMvc(opt =>
             {
                 opt.Filters.Add<ValidationFilter>();
@@ -102,7 +124,7 @@ namespace EasyNaills.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(swgrUI =>
@@ -110,9 +132,11 @@ namespace EasyNaills.Api
                 swgrUI.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyNails API V1");
                 swgrUI.RoutePrefix = string.Empty;
             });
-
+            app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseRouting();
-
+            
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
