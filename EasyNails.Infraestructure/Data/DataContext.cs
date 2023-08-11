@@ -1,6 +1,6 @@
 ﻿using EasyNails.Core.Entities;
-using EasyNails.Infraestructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace EasyNails.Infraestructure.Data
 {
@@ -19,6 +19,7 @@ namespace EasyNails.Infraestructure.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Branch> Branches { get; set; }
         public DbSet<User> Users { get; set; }
+        public virtual DbSet<Security> Securities { get; set; }
         #endregion
 
         #region PrivateMethods
@@ -32,9 +33,7 @@ namespace EasyNails.Infraestructure.Data
         #region ProtectedMethods
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
-            modelBuilder.ApplyConfiguration(new BranchConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         #endregion
 

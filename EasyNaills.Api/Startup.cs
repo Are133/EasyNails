@@ -1,28 +1,19 @@
 using AutoMapper;
 using EasyNail.Services.Interfaces;
 using EasyNail.Services.Services;
-using EasyNails.Core.Interfaces;
-using EasyNails.Infraestructure.Data;
+using EasyNails.Infraestructure.Extensions;
 using EasyNails.Infraestructure.Filters;
-using EasyNails.Infraestructure.Interfaces;
-using EasyNails.Infraestructure.Options;
-using EasyNails.Infraestructure.Repositories;
 using EasyNails.Infraestructure.Seeders;
-using EasyNails.Infraestructure.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -48,45 +39,20 @@ namespace EasyNaills.Api
                 opt.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
-
-            services.AddDbContext<DataContext>(cfg =>
-            {
-                cfg.UseSqlServer(Configuration.GetConnectionString("ConnectionStringCredentials"));
-            });
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //SeedDb
             services.AddTransient<SeedDbContextData>();
 
-            services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
+            services.AddOptions(Configuration);
+            services.AddDbContexts(Configuration);
 
             //Dependency Injection Services
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddSingleton<IUriService>(prov =>
-            {
-                var accesor = prov.GetRequiredService<IHttpContextAccessor>();
-                var request = accesor.HttpContext.Request;
-                var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
-                return new UriService(absoluteUri);
-            });
+            services.AddServices();
 
-            services.AddSwaggerGen(docSwgr =>
-            {
-                docSwgr.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Easy Nails API",
-                    Version = "v1",
-                });
-
-                var docXmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlRoutPath = Path.Combine(AppContext.BaseDirectory, docXmlFile);
-
-                docSwgr.IncludeXmlComments(xmlRoutPath);
-            });
+            services.AddSwaggerConfigure($"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
 
             services.AddAuthentication(auth =>
             {
@@ -124,7 +90,7 @@ namespace EasyNaills.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            
+
 
             app.UseSwagger();
             app.UseSwaggerUI(swgrUI =>
@@ -135,8 +101,8 @@ namespace EasyNaills.Api
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
-            
-            
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

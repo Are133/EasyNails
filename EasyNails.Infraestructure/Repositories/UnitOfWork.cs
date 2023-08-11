@@ -10,6 +10,7 @@ namespace EasyNails.Infraestructure.Repositories
         #region Attributtes
         private readonly DataContext _dataContext;
         private readonly IBaseRepository<Employee> _iBaseRepository;
+        private readonly ISecurityRepository _securityRepository;
         #endregion
 
         #region Builder
@@ -23,6 +24,7 @@ namespace EasyNails.Infraestructure.Repositories
 
         #region Properties
         public IBaseRepository<Employee> EmployeeRepository => _iBaseRepository ?? new BaseRepository<Employee>(_dataContext);
+        public ISecurityRepository SecurityRepository => _securityRepository ?? new SecurityRepository(_dataContext);
         #endregion
 
 

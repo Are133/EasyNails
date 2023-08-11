@@ -10,8 +10,8 @@ namespace EasyNails.Infraestructure.Validators
         public EmployeeValidator()
         {
             // TODO: Agregar el resto de validaciones para los campos de la entidad empleados
-            RuleFor(employeeDto =>  employeeDto.FirstName)
-                .NotNull().NotEmpty().Length(5,50);
+            RuleFor(employeeDto => employeeDto.FirstName)
+                .NotEmpty().WithMessage("Error al ingresar un nombre vacio");
         }
         #endregion
     }

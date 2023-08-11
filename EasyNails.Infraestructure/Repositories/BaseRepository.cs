@@ -12,7 +12,7 @@ namespace EasyNails.Infraestructure.Repositories
     {
         #region Attributtes
         private readonly DataContext _dataContext;
-        private  readonly DbSet<T> _entities;
+        public  readonly DbSet<T> _entities;
         #endregion
 
         #region Builder
